@@ -1,0 +1,197 @@
+.connexionInscriptionContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+    padding: 2rem;
+    width: 100%;
+
+    .inscription {
+        font-family: var(--font-family);
+        font-weight: 400;
+        font-size: 1.2rem;
+        margin: 0rem 0 4rem 0;
+        padding: 1rem;
+        border-radius: 5px;
+        color: white;
+        background-color: var(--primary-grey);
+        transition: ease-in-out .2s;
+    }
+
+    .connexion {
+        font-family: var(font-family);
+        font-weight: 400;
+        font-size: 1.2rem;
+        margin: 0rem 0 4rem 0;
+        padding: 1rem;
+        border-radius: 5px;
+        color: white;
+        background-color: var(--primary-grey);
+        transition: ease-in-out .2s;
+    }
+
+    .containerFaq {
+        max-width: 800px;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+
+    .connexionInscriptionContainer {
+        padding: 0px;
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/*                            Container Inscription                           */
+/* -------------------------------------------------------------------------- */
+.containerInscription {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+    padding: 2rem;
+    width: 100%;
+
+    h1 {
+        padding: 2rem;
+        margin: 0;
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 3.5rem;
+        text-align: center;
+        color: #757575;
+    }
+
+    .connectFormTitle {
+        padding: 2rem 2rem 1rem 2rem;
+    }
+
+    .formInscription {
+        width: 300px;
+
+        .divError {
+            height: 20px;
+            padding: 0.3rem 0 0 0;
+
+            span {
+                font-size: 1.2rem;
+                color: red;
+            }
+        }
+
+        .checkboxContainerInscription {
+            display: flex;
+            flex-flow: row;
+            padding-bottom: 0 !important;
+
+            span {
+                padding: 0;
+                padding-right: 5px;
+                padding-top: 2px;
+                height: 15px;
+
+                svg {
+                    color: rgba(0, 0, 0, 0.23);
+                }
+            }
+
+            p {
+                font-size: 1.2rem;
+                color: var(--primary-grey);
+            }
+        }
+
+        div {
+            width: 100%;
+
+            button {
+                height: 50px;
+                font-size: 1.2rem;
+                background-color: var(--separator);
+                color: var(--text-color);
+            }
+
+            /*
+            fieldset {
+                border-color: var(--separator) !important;
+            }
+            */
+        }
+    }
+}
+
+@media only screen and (max-width: 425px) {
+
+    .containerInscription {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: column;
+        padding: 2rem;
+        width: 100%;
+
+        h1 {
+            font-size: 3rem !important;
+        }
+
+        .formInscription {
+            width: 100%;
+        }
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                Conatainer FAQ                              */
+/* -------------------------------------------------------------------------- */
+
+.containerFaq {
+    padding: 0rem 2rem;
+
+    h4 {
+        font-size: 2.4rem;
+        font-weight: 600;
+        color: #757575;
+
+        span {
+            font-size: 2.4rem;
+            padding: 0 1rem 0 0;
+            font-weight: 600;
+            color: var(--separator);
+        }
+    }
+
+    .faqTypoTitle {
+        font-size: 1.6rem !important;
+        color: #757575;
+    }
+
+    .faqTypo {
+        font-size: 1.4rem !important;
+    }
+}
+
+
+@media only screen and (max-width: 425px) {
+
+    .containerFaq {
+        padding: 0rem 2rem;
+
+        h4 {
+            font-size: 1.8rem !important;
+
+            span {
+                font-size: 1.8rem !important;
+            }
+        }
+
+        .faqTypoTitle {
+            font-size: 1.3rem !important;
+            color: #757575;
+        }
+
+        .faqTypo {
+            font-size: 1.4rem !important;
+        }
+    }
+}

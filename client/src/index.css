@@ -1,0 +1,81 @@
+:root {
+  --text-color: #fff;
+  --text-danger: #eb2f06;
+  --text-success: #4cd137;
+  --primary: #303030;
+  --primary-grey: rgb(112, 112, 112);
+  --primary-dark: #272727;
+  --background-white: #fff;
+  --background-light: rgb(250, 250, 250);
+  --background-grey: #e7e7e7;
+  --background-dark: #060606;
+  --box-shadow: 0px 0px 20px #e4e4e4;
+  --box-shadow-annonce: 0px 8px 10px #c2c2c2;
+  --box-shadow-annonce-phone: -8px 0px 10px 4px #e0e0e0;
+  --box-shadow-input: 0px 0px 5px rgb(112, 112, 112);
+  --box-shadow-input-hover: 0px 0px 10px rgb(184, 184, 184);
+  --separator: #ff9900;
+  --separatorLight: #ffb74a;
+  --font-family: "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+
+}
+
+/* Reset */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: var(--font-family);
+  font-size: 10px;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+}
+
+a {
+  color: grey;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  color: var(--primary-dark);
+  margin: 1rem 0 1rem 0;
+}
+
+p {
+  font-size: 14px;
+  margin: 0.3rem 0 0.5rem 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}

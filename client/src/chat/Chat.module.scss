@@ -1,0 +1,297 @@
+.containerChat {
+    width: 100%;
+    min-width: 100%;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border-top: 1px solid var(--background-grey);
+    height: 90vh;
+
+    .containerHeadChat {
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 1rem;
+        padding: 2rem 3.8rem 2rem 3.8rem !important;
+        border-bottom: 1px solid var(--background-grey);
+        background-color: var(--background-light);
+
+        div {
+            display: flex;
+            align-items: center;
+
+            .headChat {
+                display: flex;
+
+                .personDescription {
+                    display: flex;
+                    flex-flow: column;
+                    align-items: flex-start !important;
+                    justify-content: center;
+                    margin: 0 2rem 0 2rem;
+                    padding-right: 2rem;
+                    border-right: 1px solid var(--background-grey);
+
+                    .userNameDescription {
+                        font-size: 1.4rem;
+                        font-weight: 600;
+                    }
+
+                    h5 {
+                        margin: 0;
+                    }
+                }
+            }
+
+            h4 {
+                margin-bottom: 0 !important;
+                font-size: 2.5rem;
+            }
+
+            .formControl {
+                display: flex;
+
+                button {
+                    margin: 0rem 0rem 0rem 2rem;
+                    width: 121px;
+                    border: none;
+                    padding: 1rem;
+                    font-weight: 400;
+                    font-size: 1.2rem;
+                    color: var(--text-color);
+                    background-color: var(--separator);
+                }
+
+                button:hover {
+                    background-color: var(--separator);
+                }
+
+                .containerInput {
+                    display: flex;
+                    flex-flow: column;
+                    align-items: flex-start;
+
+                    .inputPrice {
+                        height: 46px;
+                        margin-top: 0.6rem
+                    }
+
+                    div fieldset legend {
+                        display: none !important
+                    }
+                }
+
+                div div p {
+                    font-size: 1.8rem !important
+                }
+            }
+        }
+    }
+
+    .boxChat {
+        height: calc(90vh - 91px);
+        padding: 2rem 3.8rem 2rem 3.8rem !important;
+        display: flex;
+        flex-flow: column;
+        justify-content: space-between;
+
+        .containerItemsChat {
+            display: flex;
+            flex-flow: column;
+            width: 100%;
+            justify-content: space-between;
+
+            .containerListChat {
+                height: 70vh;
+                width: 100%;
+                display: flex;
+
+                #chatWindowMessages {
+                    height: auto;
+                    overflow: auto;
+                    display: flex;
+                    width: 100%;
+                    flex-direction: column;
+                    padding-top: 0;
+                    padding-right: 2rem;
+                    margin-bottom: 2rem;
+                    overflow-y: scroll;
+
+                    .listItemsChat {
+                        padding: 0 !important;
+
+                        .chat {
+                            display: flex;
+
+                            span {
+                                font-size: 1.6rem !important;
+                                max-width: 500px;
+                                padding: 1rem 2rem 1rem 2rem;
+                                border-radius: 10px;
+                                word-break: break-all;
+                                background-color: var(--background-grey);
+                            }
+                        }
+                    }
+                }
+
+                #chatWindowMessages::-webkit-scrollbar {
+                    width: 3px;
+                    scrollbar-width: thin;
+                }
+
+                #chatWindowMessages::-webkit-scrollbar-track {
+                    background-color: #e5e5e5;
+                }
+
+                #chatWindowMessages::-webkit-scrollbar-thumb {
+                    background-color: var(--separator);
+                    border-radius: 100px;
+                    transition: ease-in-out .2s;
+                }
+            }
+
+            .containerSendChat {
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+
+                .messageChat {
+                    width: 100%;
+                    padding: 0 2rem 0 0rem;
+                }
+            }
+
+            .buttonSendChat {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding-right: 1.5rem;
+
+                .buttonIcon {
+                    width: auto !important;
+
+                    svg {
+                        color: var(--separator);
+                    }
+
+                    .buttonSend {
+                        height: 25px !important;
+                        width: 25px !important;
+                    }
+                }
+            }
+        }
+    }
+
+
+    .loadingContainerDescriptionChat {
+        display: flex;
+        width: 100%;
+        height: 90vh;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+            color: var(--separator);
+        }
+    }
+
+    label {
+        font-size: 1.4rem !important;
+    }
+
+    span {
+        font-size: 1.05rem;
+    }
+
+    input {
+        font-size: 1.3rem !important;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+
+    .containerHeadChat {
+        flex-flow: column;
+        align-items: flex-start !important;
+        height: 160px !important;
+
+        .formPriceAnnonceContainer {
+            width: 100%;
+            padding-top: 2rem;
+            border-top: 1px solid var(--background-grey);
+
+            .inputPrice {
+                height: 35.5px !important;
+                margin-top: 0.50rem !important;
+
+                input {
+                    padding: 10.5px 16px 14px 0px !important;
+                }
+            }
+
+            .formControl {
+                button {
+                    height: 40.5px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .containerHeadChat {
+        height: 186px !important;
+
+        .headChatColumn {
+            flex-flow: column;
+            align-items: flex-start !important;
+
+            .headerChat {
+                display: flex;
+                flex-flow: column;
+
+                img {
+                    width: 45px;
+                    height: 45px;
+                }
+
+                .personDescription {
+                    width: 93px;
+                    margin: 0 0 0 1rem !important;
+                    padding-right: 1rem !important;
+
+                    span {
+                        font-size: 1.2rem !important;
+                    }
+                }
+            }
+
+            .titleDescription {
+                margin: 1.5rem 0rem 1rem 0rem !important;
+                margin-bottom: 1rem !important;
+                font-size: 1.8rem;
+            }
+        }
+
+        .formControl {
+            .containerInput {
+                .inputPrice {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 420px) {
+    .formControl {
+        .containerInput {
+            .inputPrice {
+                width: 100px !important;
+            }
+        }
+    }
+}
