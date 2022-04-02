@@ -42,7 +42,7 @@ const annoncesSlice = createSlice({
         [fetchAnnonces.fulfilled]: (state, action) => {
             state.data = action.payload;
             state.loading = false;
-            console.log(action.payload)
+            /* console.log(action.payload) */
         },
         [fetchAnnonces.rejected]: (state, action) => {
             state.loading = false;

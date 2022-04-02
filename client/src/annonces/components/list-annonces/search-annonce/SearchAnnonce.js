@@ -10,6 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import { fetchAnnonces } from '../../../../store/annoncesSlice';
+import { useState } from 'react';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -27,7 +28,6 @@ const SearchAnnonce = () => {
     const dispatch = useDispatch();
 
     const { data } = useSelector(state => state.annonces);
-    console.log(data)
     const annoncesNumbers = data.length
 
     //////////////////////////////////////////////////////
@@ -37,11 +37,9 @@ const SearchAnnonce = () => {
     /* -------------------------------------------------------------------------- */
 
     function reload() {
-
         const object = {
             annonceCategory: 'All',
         }
-
         dispatch(fetchAnnonces({object}))
     }
 

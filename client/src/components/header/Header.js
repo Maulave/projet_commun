@@ -7,21 +7,16 @@ import GroupIcon from '@mui/icons-material/Group';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
 import PersonIcon from '@mui/icons-material/Person';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
 
-    const [access, setAccess] = useState(false);
+    /* -------------------------------------------------------------------------- */
+    /*                                    REDUX                                   */
+    /* -------------------------------------------------------------------------- */
 
-    useEffect(() => {
-
-    const token = localStorage.getItem('auth-plateforme');
-
-    if(token) {
-        setAccess(true)
-    } else {
-        setAccess(false)
-    }
-    }, []);
+    /* Recuperation des data du store */
+    const { user } = useSelector(state => state.app)
 
     /* -------------------------------------------------------------------------- */
     /*                                  useState                                  */
@@ -98,7 +93,7 @@ const Header = () => {
                         <div className={ Style.containerHeaderLogin }>
                             <ul>
                                 <li>
-                                    { access ? (
+                                    { user ? (
                                         <NavLink to="/compte"><PersonIcon /></NavLink>
                                     ) : (
                                         <NavLink to="/connexion">Connexion</NavLink>
@@ -137,7 +132,7 @@ const Header = () => {
                             <NavLink to="/annonces" onClick={ () => handleSelectBurger() }>Annonces</NavLink>
                         </li>
                         <li>
-                            { access ? (
+                            { user ? (
                                 <>
                                     <PersonIcon />
                                     <NavLink to="/compte" onClick={ () => handleSelectBurger() }>Mon compte</NavLink>

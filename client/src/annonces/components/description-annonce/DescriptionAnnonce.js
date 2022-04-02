@@ -20,6 +20,7 @@ const DescriptionAnnonce = () => {
     /* Je récupère selected = a 0 et affiche ma premiere annonce */
     /* je récupere mon buttonLeft = a false */
     const { error, data, selected, loading, buttonLeft } = useSelector(state => state.annonces);
+    const { user } = useSelector(state => state.app)
 
     /* -------------------------------------------------------------------------- */
     /*                                   Window                                   */
@@ -67,6 +68,7 @@ const DescriptionAnnonce = () => {
         }
     }, [buttonLeft])
 
+
     return (
         <>
             { data.length ? (
@@ -91,8 +93,17 @@ const DescriptionAnnonce = () => {
                                 { data[selected].annonceText }
                             </div>
                             <div className={ Style.containerButtonDescription }>
-                                <PriceAnnonces />
-                                <NavLink to="/message" className={ Style.sendMessage }>Envoyer un message</NavLink>
+                                { user ? (
+                                    <>
+                                        <PriceAnnonces />
+                                        <NavLink to="/message" className={ Style.sendMessage }>Envoyer un message</NavLink>
+                                    </>
+                                ) : (
+                                    <div className={ Style.containerButtonConnection }>
+                                        <p>Connectez-vous pour envoyer un message ou une offre</p>
+                                        <NavLink to="/connexion" className={ Style.sendMessage }>Se connecter</NavLink>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}
@@ -125,8 +136,17 @@ const DescriptionAnnonce = () => {
                                         </p>
                                     </div>
                                     <div className={ Style.containerButtonDescription }>
-                                        <PriceAnnonces />
-                                        <NavLink to="/message" className={ Style.sendMessage }>Envoyer un message</NavLink>
+                                        { user ? (
+                                            <>
+                                                <PriceAnnonces />
+                                                <NavLink to="/message" className={ Style.sendMessage }>Envoyer un message</NavLink>
+                                            </>
+                                        ) : (
+                                            <div className={ Style.containerButtonConnection }>
+                                                <p>Connectez-vous pour envoyer un message ou une offre</p>
+                                                <NavLink to="/connexion" className={ Style.sendMessage }>Se connecter</NavLink>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>

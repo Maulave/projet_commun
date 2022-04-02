@@ -11,8 +11,7 @@ const db = mysql.createConnection({
     database: 'shopmodulecommun'
 });
 
-// Insertion pour mes requêtes d'inscription
-
+// Récupération des informations du User si il est connecté
 router.get('/', async (req, res) => {
     const { token } = req.headers;
     const { id } = await jwt.verify(token, process.env.SECRET)

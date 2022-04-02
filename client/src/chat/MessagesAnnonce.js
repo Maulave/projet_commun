@@ -16,22 +16,21 @@ import PriceAnnonceMessage from './model/PriceAnnonceMessage';
 const MessagesAnnonce = () => {
 
     const urlMessage = "http://localhost:5000/message";
+    const urlAnnonce = "http://localhost:5000/annonces/price";
+    const urlGetMessageBdd = "http://localhost:5000/message";
 
     /* -------------------------------------------------------------------------- */
     /*                                    REDUX                                   */
     /* -------------------------------------------------------------------------- */
 
     /* Recuperation des data du store */
-    /* Je récupère selected = a 0 et affiche ma premiere annonce */
-    /* je récupere mon buttonLeft = a false */
-    const { user } = useSelector(state => state.app);
+    const { user } = useSelector(state => state.app)
+    const { loading, error, data, selected } = useSelector(state => state.annonces);
 
     /* -------------------------------------------------------------------------- */
     /*                                     YUP                                    */
     /* -------------------------------------------------------------------------- */
-
-    const urlAnnonce = "http://localhost:5000/annonces";
-
+    /* Yup permet de vérifier les données et envoyer un message d'erreur à l'utilisateur */
     const userSchema = Yup.object().shape({
         int: Yup.number()
         .typeError('')
@@ -44,9 +43,8 @@ const MessagesAnnonce = () => {
     /* -------------------------------------------------------------------------- */
     /*                                    Input                                   */
     /* -------------------------------------------------------------------------- */
-
+    /* On custom l'input price, cela permet aussi de rendre le code moins verbeux */
     const inputPrice = ({ field, form, ...props }) => {
-
         return (
             <>
                 <OutlinedInput
@@ -67,7 +65,7 @@ const MessagesAnnonce = () => {
     /* -------------------------------------------------------------------------- */
     /*                                    Error                                   */
     /* -------------------------------------------------------------------------- */
-
+    /* On custom l'input Erorr pour afficher les erreur que YUP a détecté */
     const CustomError = (props) => {
         return (
             <span>{ props.children }</span>
@@ -75,19 +73,21 @@ const MessagesAnnonce = () => {
     }
 
     /* -------------------------------------------------------------------------- */
-    /*                                   Submit                                   */
+    /*                                Submit Price                                */
     /* -------------------------------------------------------------------------- */
 
-    function submit(e) {
-
+    const submit = (values, actions) => {
         /* Création de l'object pour envois en bdd */
         const price = { 
-            priceAnnonceMessage: e.int, 
+            priceAnnonceMessage: values.int, 
+            usersMessage: 'Pour votre l\'object que vous recherchez dans votre annonce, je vous le vend pour ' + values.int + ' euros', 
             idUsersMessage: user.userId, 
+            idAnnonceSend: data[selected].id,
+            idUsersSend: data[selected].annonceUser,
         }
 
         
-        /* Insertion base de données */
+        /* Insertion de la demmande de prix dans la base de données */
         fetch(urlAnnonce,
         {
             method: 'POST',
@@ -96,6 +96,8 @@ const MessagesAnnonce = () => {
         }
         ).then(() =>{
             console.log('Demmande de prix envoyé !')
+            actions.resetForm()
+            actions.setSubmitting(false)
 
             /* Création de l'envois du message */
             webSocket.current.onmessage = (e) => {
@@ -109,11 +111,11 @@ const MessagesAnnonce = () => {
                 ])
             }
 
-            if(userState && e.int) {
+            if(userState && values.int) {
                 /* Envois du message */
                 console.log("SEND !")
                 webSocket.current.send(
-                    JSON.stringify(new ChatMessageDto(userState, 'Pour votre l\'object que vous recherchez dans votre annonce, je vous le vend pour ' + e.int + ' euros'))
+                    JSON.stringify(new ChatMessageDto(userState, 'Pour votre l\'object que vous recherchez dans votre annonce, je vous le vend pour ' + values.int + ' euros'))
                 );
             }
         })
@@ -121,21 +123,12 @@ const MessagesAnnonce = () => {
     }
 
     /* -------------------------------------------------------------------------- */
-    /*                                     BDD                                    */
-    /* -------------------------------------------------------------------------- */
-
-    /* Recuperation des data du store */
-    /* Je récupère selected = a 0 et affiche ma premiere annonce */
-    const { loading, error, data, selected } = useSelector(state => state.annonces);
-
-    /* -------------------------------------------------------------------------- */
     /*                                 WEB SOCKET                                 */
     /* -------------------------------------------------------------------------- */
-
+    /* On déclare les useState pour l'envois des message avec websocket */
     const webSocket = useRef(null)
-
     const [chatMessages, setChatMessages] = useState([]);
-    const [userState, setUserState] = useState(user.userMail);
+    const [userState, setUserState] = useState(user.userId);
     const [message, setMessage] = useState('');
 
     
@@ -172,10 +165,12 @@ const MessagesAnnonce = () => {
     }
 
     const sendMessage = () => {
-
+        /* On prepare l'object pour l'envoyé au back end */
         const messageBdd = { 
             usersMessage: message, 
             idUsersMessage: user.userId, 
+            idUsersSend: data[selected].annonceUser,
+            idAnnonceSend: data[selected].id
         }
 
         if(userState && message) {
@@ -185,8 +180,6 @@ const MessagesAnnonce = () => {
             );
             setMessage('');
         }
-
-        console.log(messageBdd)
 
         fetch(urlMessage,
         {
@@ -199,9 +192,46 @@ const MessagesAnnonce = () => {
         })
     }
 
+    /* -------------------------------------------------------------------------- */
+    /*                Récupération des données du chat dans la bdd                */
+    /* -------------------------------------------------------------------------- */
+    const [chatMessagesBdd, setChatMessagesBdd] = useState([]);
+
+    useEffect(() => {
+        fetch(urlGetMessageBdd,
+            {
+                method: 'GET',
+                headers: { 'idUsersMessage': user.userId, 'idSendMessage': data[selected].annonceUser, 'idAnnonceSend': data[selected].id, 'Content-Type': 'application/json'},
+            }
+            )
+            .then(res => res.json())
+            .then(messageSendBdd => {
+                console.log('Message Bdd de la conversation')
+                if (messageSendBdd.success === true) {
+                    setChatMessagesBdd(messageSendBdd.result)
+                }
+            })
+    }, []);
+
+
     ///////////////////////////////////////////////////////////////////////////////
+    /* List des message du chat */
+    /* Message récupéré depuis la BDD */
 
+    const listChatMeassagesBdd = chatMessagesBdd.map((message, index) => 
+        <ListItem key={ index } className={ Style.listItemsChat } >
+            <ListItemText 
+                primary={`${message.usersMessage}`} 
+                className={ Style.chat } 
+                style={{ 
+                    justifyContent: userState === message.idUsersMessage ? 'flex-end' : 'flex-start', 
+                    margin: userState === message.idUsersMessage ? '4px 0px 4px 40px' : '4px 40px 4px 0px' 
+                }} 
+            />
+        </ListItem>
+    )
 
+    /* Message envoyé depuis l'input */ 
     const listChatMeassages = chatMessages.map((chatMessagesDto, index) => 
         <ListItem key={ index } className={ Style.listItemsChat } >
             <ListItemText 
@@ -237,12 +267,13 @@ const MessagesAnnonce = () => {
                             <div className={ Style.formPriceAnnonceContainer }>
                                 <div>
                                     <Formik
-                                        onSubmit={(e) => submit(e)}
+                                        onSubmit={submit}
                                         initialValues={{ int: ''}}
                                         validationSchema={ userSchema }
+                                        validateOnBlur={ false }
                                     >{ ({
                                         handleSubmit,
-                                        resetForm
+                                        isSubmitting
                                     }) => (
                                         <form onSubmit={ handleSubmit } className={ Style.formControl } >
 
@@ -250,7 +281,7 @@ const MessagesAnnonce = () => {
                                             <div className={ Style.containerInput }>
                                                 <Field name='int' component={ inputPrice } />
                                             </div>
-                                            <Button type="submit" variant="contained" size='small' disableElevation>Faire une offre</Button>
+                                            <Button type="submit" variant="contained" size='small' disabled={ isSubmitting } disableElevation>Faire une offre</Button>
                                         </form>
                                         )}
                                     </Formik>
@@ -261,6 +292,7 @@ const MessagesAnnonce = () => {
                             <div className={ Style.containerItemsChat }>
                                 <div className={ Style.containerListChat } >
                                     <List id={ Style.chatWindowMessages }>
+                                        {listChatMeassagesBdd}
                                         {listChatMeassages}
                                     </List>
                                 </div>

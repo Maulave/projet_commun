@@ -70,6 +70,10 @@
     .formInscription {
         width: 300px;
 
+        label {
+            font-size: 1.2rem;
+        }
+
         .divError {
             height: 20px;
             padding: 0.3rem 0 0 0;
@@ -83,7 +87,7 @@
         .checkboxContainerInscription {
             display: flex;
             flex-flow: row;
-            padding-bottom: 0 !important;
+            padding-bottom: 5px !important;
 
             span {
                 padding: 0;
@@ -97,6 +101,7 @@
             }
 
             p {
+                line-height: 16px;
                 font-size: 1.2rem;
                 color: var(--primary-grey);
             }

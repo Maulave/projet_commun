@@ -105,7 +105,7 @@ const Inscription = () => {
     const inputCheckBox = ({ field, form, ...props }) => {
 
         return (
-            <div style={{ padding: '10px 0px 0px 0px'}} className={ Style.checkboxContainerInscription}>
+            <div style={{ padding: '10px 0px 5px 0px'}} className={ Style.checkboxContainerInscription}>
                 <Checkbox
                     required
                     checked={checked}
@@ -132,13 +132,13 @@ const Inscription = () => {
     /*                                   Submit                                   */
     /* -------------------------------------------------------------------------- */
 
-    function submit(e) {
+    const submit = (values, actions) => {
 
         const users = { 
-            usersName: e.name, 
-            usersFirstName: e.firstName, 
-            usersMails: e.email, 
-            usersPassword: e.password 
+            usersName: values.name, 
+            usersFirstName: values.firstName, 
+            usersMails: values.email, 
+            usersPassword: values.password 
         }
 
         fetch(url,
@@ -149,18 +149,23 @@ const Inscription = () => {
         }
         ).then(() =>{
             console.log('Inscription réussi !')
+            actions.resetForm()
+            actions.setSubmitting(false)
         })
+
     }
 
     return (
         <div className={ Style.containerInscription }>
             <h1>Inscription</h1>
             <Formik
-                onSubmit={(e) => submit(e)}
+                onSubmit={submit}
                 initialValues={{ name: '', firstName: '', email: '', password: ''}}
                 validationSchema={ userSchema }
+                validateOnBlur={ false }
             >{ ({
-                handleSubmit
+                handleSubmit,
+                isSubmitting
             }) => (
                 <form onSubmit={ handleSubmit } className={ Style.formInscription }>
 
@@ -185,7 +190,7 @@ const Inscription = () => {
                     <Field name='checkBox' component={ inputCheckBox } />
 
                     <div style={{ padding: '10px 0px'}}>
-                        <Button type='submit' fullWidth variant="contained" size='small' disableElevation>S'inscrire</Button>
+                        <Button type='submit' fullWidth disabled={ isSubmitting } variant="contained" size='small' disableElevation>S'inscrire</Button>
                     </div>
                 </form>
             )}

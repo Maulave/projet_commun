@@ -10,13 +10,13 @@ const DescriptionAnnonce = () => {
     /* -------------------------------------------------------------------------- */
     /*                                   Montant                                  */
     /* -------------------------------------------------------------------------- */
-
+    /* On crée un useState de values que l'input prendra en valeur */
     const [values, setValues] = useState({
         amount: '',
     });
 
+    /* handleChange permet de modifier l'input */
     const handleChange = (prop) => (event) => {
-
         setValues({ ...values, [prop]: event.target.value });
     };
 
@@ -25,15 +25,13 @@ const DescriptionAnnonce = () => {
     /* -------------------------------------------------------------------------- */
 
     /* Recuperation des data du store */
-    /* Je récupère selected = a 0 et affiche ma premiere annonce */
-    /* je récupere mon buttonLeft = a false */
     const { user } = useSelector(state => state.app);
+    const { loading, error, data, selected } = useSelector(state => state.annonces)
+    const url = "http://localhost:5000/annonces/price";
 
     /* -------------------------------------------------------------------------- */
     /*                                     YUP                                    */
     /* -------------------------------------------------------------------------- */
-
-    const url = "http://localhost:5000/annonces";
 
     const userSchema = Yup.object().shape({
         int: Yup.number()
@@ -84,13 +82,17 @@ const DescriptionAnnonce = () => {
     /*                                   Submit                                   */
     /* -------------------------------------------------------------------------- */
 
-    function submit(e) {
-
+    const submit = (values, actions) => {
+        /* Création de l'object pour envois en bdd */
         const price = { 
-            priceAnnonceMessage: e.int, 
+            priceAnnonceMessage: values.int, 
+            usersMessage: 'Pour votre l\'object que vous recherchez dans votre annonce, je vous le vend pour ' + values.int + ' euros', 
             idUsersMessage: user.userId, 
+            idAnnonceSend: data[selected].id,
+            idUsersSend: data[selected].annonceUser,
         }
-        
+
+        /* Insertion de la demmande de prix dans la base de données */
         fetch(url,
         {
             method: 'POST',
@@ -99,6 +101,9 @@ const DescriptionAnnonce = () => {
         }
         ).then(() =>{
             console.log('Demmande de prix envoyé !')
+            /* On remet le formulaire a 'vide' */
+            actions.resetForm()
+            actions.setSubmitting(false)
         })
         
     }
@@ -106,11 +111,13 @@ const DescriptionAnnonce = () => {
     return (
         <div className={ Style.containerOffre }>
             <Formik
-                onSubmit={(e) => submit(e)}
+                onSubmit={ submit }
                 initialValues={{ int: ''}}
                 validationSchema={ userSchema }
+                validateOnBlur={ false }
             >{ ({
-                handleSubmit
+                handleSubmit,                                        
+                isSubmitting
             }) => (
                 <form onSubmit={ handleSubmit } className={ Style.formControl} >
 
@@ -118,7 +125,7 @@ const DescriptionAnnonce = () => {
 
                     <Field name='int' component={ inputPrice } />
 
-                    <Button type="submit" variant="contained" size='small' disableElevation>Faire une offre</Button>
+                    <Button type="submit" variant="contained" size='small' disabled={ isSubmitting } disableElevation>Faire une offre</Button>
                 </form>
                 )}
             </Formik>

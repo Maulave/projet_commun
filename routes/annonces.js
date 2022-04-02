@@ -12,9 +12,7 @@ const db = mysql.createConnection({
 
 // Création de mes routes pour requêtes d'annonces
 router.post('/', async (req, res) => {
-    console.log(req.body)
     const { annonceCategory } = req.body
-    console.log(annonceCategory)
 
     if (annonceCategory === 'Cable'){
         let sql = 'SELECT * FROM annoncesearcharticles WHERE annonceCategory= ?';
@@ -43,10 +41,10 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.post('/', (req, res) => {
+router.post('/price', (req, res) => {
     console.log(req.body)
-    const { priceAnnonceMessage, idUsersMessage } = req.body;
-    let post = { priceAnnonceMessage, idUsersMessage }
+    const { usersMessage, priceAnnonceMessage, idUsersMessage, idUsersSend, idAnnonceSend } = req.body;
+    let post = { usersMessage, priceAnnonceMessage, idUsersMessage, idUsersSend, idAnnonceSend }
     let sql = 'INSERT INTO messages SET ?';
     let query = db.query(sql, post, (err, result) => {
         if(err) throw err;
@@ -54,10 +52,6 @@ router.post('/', (req, res) => {
         res.json(result)
     });
 });
-
-
-
-
 
 
 module.exports = router;
